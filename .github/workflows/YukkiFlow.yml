@@ -37,7 +37,7 @@ jobs:
             access_token: ${{ secrets.GH_TOKEN }}
 #############################################################################################
        - name: Cleaning up some space & Deploying and Running bot in Parallel
-         timeout-minutes: 350
+         timeout-minutes: 340
          continue-on-error: true
          run: |
            parallel -u ::: 'sudo bash cleanup.sh' 'git clone https://amirulandalib:${{ secrets.GH_TOKEN }}@github.com/amirulandalib/Yukki_personal yukki && cd yukki && sudo docker-compose up --build'
