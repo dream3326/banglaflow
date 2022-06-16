@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [[ $OSTYPE != "linux-gnu" ]]; then
-  printf "This Cleanup Script Should Be Run On Ubuntu Runner.\n"
+   "This Cleanup Script Should Be Run On Ubuntu Runner.\n"
   exit 1
 fi
 
@@ -10,7 +10,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Prepare: Just To Populate Workflow Output Window
 until [[ "${SECONDS_LEFT:=10}" = 0 ]]; do
-  printf "Please wait %ss ...\n" "${SECONDS_LEFT}"
+   "Please wait %ss ...\n" "${SECONDS_LEFT}"
   sleep 0.5
   SECONDS_LEFT=$(echo "${SECONDS_LEFT} - 0.5" | bc)
 done
@@ -26,7 +26,6 @@ echo "::endgroup::"
 
 echo "::group::Uninstalling Unnecessary Applications"
 sudo -EH apt-fast -qq -y update &>/dev/null
-printf "This process will consume most of the cleanup time as APT Package Manager cleans Applications with Single Process.\nParallelism is Not Possible Here, So You Have To Wait For Some Time...\n"
 REL=$(grep "UBUNTU_CODENAME" /etc/os-release | cut -d'=' -f2)
 if [[ ${REL} == "focal" ]]; then
   APT_Pac4Purge="alsa-topology-conf alsa-ucm-conf python2-dev python2-minimal libpython-dev libllvm-* llvm-12-linker-tools"
@@ -107,22 +106,22 @@ echo "::group::Purging PIPX & PIP packages"
 echo "::endgroup::"
 
 echo "::group::Removing Lots of Cached Programs & Unneeded Folders"
-printf "Removing Runner Tool Cache, Android SDK, NDK, Platform Tools, Gradle, Maven...\n"
+ "Removing Runner Tool Cache, Android SDK, NDK, Platform Tools, Gradle, Maven...\n"
 parallel --use-cpus-instead-of-cores sudo rm -rf -- {} 2>/dev/null ::: /opt/hostedtoolcache ::: /usr/local/lib/android ::: /usr/share/gradle* /usr/bin/gradle /usr/share/apache-maven* /usr/bin/mvn
-printf "Removing Microsoft vcpkg, Miniconda, Leiningen, Pulumi...\n"
+ "Removing Microsoft vcpkg, Miniconda, Leiningen, Pulumi...\n"
 parallel --use-cpus-instead-of-cores sudo rm -rf -- {} 2>/dev/null ::: /usr/local/share/vcpkg /usr/local/bin/vcpkg ::: /usr/share/miniconda ::: /usr/bin/conda /usr/local/lib/lein /usr/local/bin/lein /usr/local/bin/pulumi*
-printf "Removing Browser-based Webdrivers, PHP, Composer, Database Management Program Remains...\n"
+ "Removing Browser-based Webdrivers, PHP, Composer, Database Management Program Remains...\n"
 parallel --use-cpus-instead-of-cores sudo rm -rf -- {} 2>/dev/null ::: /usr/share/java/selenium-server-standalone.jar /usr/local/share/phantomjs* /usr/local/bin/phantomjs /usr/local/share/chrome_driver /usr/bin/chromedriver /usr/local/share/gecko_driver /usr/bin/geckodriver ::: /etc/php /usr/bin/composer /usr/local/bin/phpunit ::: /var/lib/mysql /etc/mysql /usr/local/bin/sqlcmd /usr/local/bin/bcp /usr/local/bin/session-manager-plugin
-printf "Removing Julia, Rust, Cargo, Rubygems, Rake, Swift, Haskell, Erlang...\n"
+ "Removing Julia, Rust, Cargo, Rubygems, Rake, Swift, Haskell, Erlang...\n"
 parallel --use-cpus-instead-of-cores sudo rm -rf -- {} 2>/dev/null ::: /usr/local/julia* /usr/bin/julia ::: /usr/share/rust /home/runner/.cargo /home/runner/.rustup /home/runner/.ghcup ::: /usr/local/bin/rake /usr/local/bin/rdoc /usr/local/bin/ri /usr/local/bin/racc /usr/local/bin/rougify ::: /usr/local/bin/bundle /usr/local/bin/bundler /var/lib/gems ::: /usr/share/swift /usr/local/bin/swift /usr/local/bin/swiftc /usr/bin/ghc /usr/local/.ghcup /usr/local/bin/stack /usr/local/bin/rebar3 /usr/share/sbt /usr/bin/sbt /usr/bin/go /usr/bin/gofmt
-printf "Removing Various Cloud CLI Tools, Different Kubernetes & Container Management Programs...\n"
+ "Removing Various Cloud CLI Tools, Different Kubernetes & Container Management Programs...\n"
 parallel --use-cpus-instead-of-cores sudo rm -rf -- {} 2>/dev/null ::: /usr/local/bin/aws /usr/local/bin/aws_completer /usr/local/aws-cli /usr/local/aws /usr/local/bin/aliyun /usr/share/az_* /opt/az /usr/bin/az /usr/local/bin/azcopy* /usr/bin/azcopy /usr/lib/azcopy /usr/local/bin/oc /usr/local/bin/oras ::: /usr/local/bin/packer /usr/local/bin/terraform /usr/local/bin/helm /usr/local/bin/kubectl /usr/local/bin/kind /usr/local/bin/kustomize /usr/local/bin/minikube /usr/libexec/catatonit/catatonit
-printf "Removing Microsoft dotnet Application Remains, Java GraalVM, Manpages, Remains of Apt Package Caches...\n"
+ "Removing Microsoft dotnet Application Remains, Java GraalVM, Manpages, Remains of Apt Package Caches...\n"
 parallel --use-cpus-instead-of-cores sudo rm -rf -- {} 2>/dev/null ::: /usr/share/dotnet ::: /usr/local/graalvm ::: /usr/share/man ::: /var/lib/apt/lists/* /var/cache/apt/archives/*
 echo "::endgroup::"
 
 echo "::group::Clearing Unwanted Environment Variables"
-printf "This However is Not Retained after the Step is finished. So this part might be removed in the future.\n"
+ "This However is Not Retained after the Step is finished. So this part might be removed in the future.\n"
 {
   sudo sed -i -e '/^PATH=/d;/hostedtoolcache/d;/^AZURE/d;/^SWIFT/d;/^DOTNET/d;/DRIVER/d;/^CHROME/d;/HASKELL/d;/^JAVA/d;/^SELENIUM/d;/^GRAALVM/d;/^ANT/d;/^GRADLE/d;/^LEIN/d;/^CONDA/d;/^VCPKG/d;/^ANDROID/d;/^PIPX/d;/^HOMEBREW/d;' /etc/environment
   sudo sed -i '1i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' /etc/environment
@@ -134,6 +133,5 @@ echo "::endgroup::"
 echo "::group::Disk Space After Cleanup"
 df -hlT /
 echo "::endgroup::"
-echo "freed 53GB of disk space"
 
 exit
