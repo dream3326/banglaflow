@@ -1,9 +1,9 @@
-name: Ultroid Flow
+name: Leech Flow
 
 on:
   push:
     paths:
-      - 'Records/UltroidFlow.txt'
+      - 'Records/LeechFlow.txt'
   workflow_dispatch:
 
 jobs:
@@ -47,7 +47,7 @@ jobs:
          run: |
               git clone https://github.com/amirulandalib/botflow
               cd botflow || exit 1
-              echo $(TZ='${{ secrets.TZ }}' date) >> Records/UltroidFlow.txt
-              git add Records/UltroidFlow.txt
+              echo $(TZ='${{ secrets.TZ }}' date) >> Records/LeechFlow.txt
+              git add Records/LeechFlow.txt
               git commit -m "Workflow : add recorded loop to logs $(TZ='${{ secrets.TZ }}' date)"
               git push -q https://${{ secrets.GH_TOKEN }}@github.com/amirulandalib/botflow HEAD:master            
