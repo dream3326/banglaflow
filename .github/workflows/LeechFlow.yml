@@ -40,7 +40,7 @@ jobs:
          timeout-minutes: 340
          continue-on-error: true
          run: |
-           parallel -u ::: 'npm install -g localtunnel && lt --subdomain ${{ secrets.LEECHFLOWDOMAIN }} --port 80' 'git clone --branch main https://github.com/AmirulAndalib/Leech-AIO-APP-EX rr && cd rr && sudo docker-compose up --build'
+           parallel -u ::: 'npm install -g localtunnel && lt --subdomain ${{ secrets.LEECHFLOWDOMAIN }} --port $PORT' 'git clone --branch main https://github.com/AmirulAndalib/Leech-AIO-APP-EX rr && cd rr && sudo docker-compose up --build'
 #############################################################################################
        - name: Send Record to Github
          continue-on-error: true
