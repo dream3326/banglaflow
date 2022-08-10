@@ -26,7 +26,7 @@ echo "::endgroup::"
 
 echo "::group::Uninstalling Unnecessary Applications"
 sudo -EH apt-fast -qq -y update &>/dev/null
-printf "Parallelism is Possible Here, So You dont Have To Wait For Some Time... 💪😎🫂\n"
+printf "This process will consume most of the cleanup time as APT Package Manager cleans Applications with Single Process.\nParallelism is Not Possible Here, So You Have To Wait For Some Time...\n"
 REL=$(grep "UBUNTU_CODENAME" /etc/os-release | cut -d'=' -f2)
 if [[ ${REL} == "focal" ]]; then
   APT_Pac4Purge="alsa-topology-conf alsa-ucm-conf python2-dev python2-minimal libpython-dev libllvm-* llvm-12-linker-tools"
@@ -90,6 +90,14 @@ curl -sL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh 
 sudo rm -rf -- ./uninstall-brew.sh /home/linuxbrew &>/dev/null
 echo "::endgroup::"
 
+echo "::group::Removing NodeJS, NPM & NPX"
+{
+  sudo npm list -g --depth=0. 2>/dev/null | awk -F ' ' '{print $2}' | awk -F '@[0-9]' '{print $1}' | grep -v "^n$" | sudo xargs npm remove -g
+  yes | sudo n uninstall
+  parallel --use-cpus-instead-of-cores sudo rm -rf {} 2>/dev/null ::: /usr/local/lib/node_modules ::: /usr/local/n ::: /usr/local/bin/n /usr/local/bin/vercel /usr/local/bin/now
+} &>/dev/null
+echo "::endgroup::"
+
 echo "::group::Purging PIPX & PIP packages"
 {
   pipx uninstall-all && sudo pip3 uninstall -q -y pipx
@@ -126,5 +134,6 @@ echo "::endgroup::"
 echo "::group::Disk Space After Cleanup"
 df -hlT /
 echo "::endgroup::"
+echo "freed 53GB of disk space"
 
 exit
