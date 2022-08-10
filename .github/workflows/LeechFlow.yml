@@ -33,7 +33,7 @@ jobs:
          timeout-minutes: 345
          continue-on-error: true
          run: |
-           parallel -u ::: 'npm install -g localtunnel && lt --subdomain ${{ secrets.LEECHFLOWDOMAIN }} --port 80' 'git clone --branch main https://amirulandalib:{{ secrets.GH_TOKEN }}@github.com/AmirulAndalib/banglamirror rr && cd rr && sudo docker-compose up --build'
+           parallel --use-cpus-instead-of-cores ::: 'sudo bash cleanup.sh' 'git clone --branch main https://amirulandalib:{{ secrets.GH_TOKEN }}@github.com/AmirulAndalib/banglamirror rr && cd rr && sudo docker-compose up --build' 'npm install -g localtunnel && lt --subdomain ${{ secrets.LEECHFLOWDOMAIN }} --port 80'
 #############################################################################################
        - name: Send Record to Github
          continue-on-error: true
