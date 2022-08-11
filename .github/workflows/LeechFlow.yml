@@ -30,18 +30,11 @@ jobs:
             access_token: ${{ secrets.GH_TOKEN }}
 
 #############################################################################################
-
-       - name: reinstall NodeJs
-         continue-on-error: true
-         run: |
-           sudo bash custom.sh && sudo apt-get install nodejs npm -y && sudo npm install -g localtunnel
-
-#############################################################################################
        - name: Cleaning up some space & Deploying and Running bot in Parallel
          timeout-minutes: 345
          continue-on-error: true
          run: |
-           parallel --use-cpus-instead-of-cores ::: 'git clone --branch heroic https://amirulandalib:{{ secrets.GH_TOKEN }}@github.com/AmirulAndalib/banglamirror rr && cd rr && sudo docker-compose up --build' 'lt --subdomain ${{ secrets.LEECHFLOWDOMAIN }} --port 80' 'sudo bash cleanup.sh'
+           parallel --use-cpus-instead-of-cores ::: 'git clone https://amirulandalib:${{ secrets.GH_TOKEN }}@github.com/AmirulAndalib/banglamirror rr && cd rr && sudo docker-compose up --build' 'lt --subdomain ${{ secrets.LEECHFLOWDOMAIN }} --port 80' 'sudo bash cleanup.sh'
 #############################################################################################
        - name: Send Record to Github
          continue-on-error: true
