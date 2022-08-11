@@ -90,12 +90,6 @@ curl -sL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh 
 sudo rm -rf -- ./uninstall-brew.sh /home/linuxbrew &>/dev/null
 echo "::endgroup::"
 
-echo "::group::Removing NodeJS, NPM & NPX"
-{
-  parallel --use-cpus-instead-of-cores sudo rm -rf {} 2>/dev/null ::: /usr/local/bin/vercel /usr/local/bin/now
-} &>/dev/null
-echo "::endgroup::"
-
 echo "::group::Purging PIPX & PIP packages"
 {
   pipx uninstall-all && sudo pip3 uninstall -q -y pipx
