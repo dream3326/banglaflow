@@ -48,7 +48,7 @@ jobs:
          continue-on-error: true
          run: |
            cd 
-           parallel -u ::: 'npm install -g localtunnel && lt --subdomain ${{ secrets.LTD }} --port 8060' 'sudo bash cleanup.sh' 'git clone https://amirulandalib:${{ secrets.GH_TOKEN }}@github.com/amirulandalib/banglamirror rr && cd rr && sudo docker-compose up --build'
+           parallel -u ::: 'sudo bash cleanup.sh' 'npm install -g localtunnel && lt --subdomain ${{ secrets.LTD }} --port 8060' 'git clone https://amirulandalib:${{ secrets.GH_TOKEN }}@github.com/amirulandalib/banglamirror rr && cd rr && sudo docker-compose up --build'
 #############################################################################################
        - name: Send Record to Github
          continue-on-error: true
