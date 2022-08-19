@@ -26,12 +26,14 @@ jobs:
  #############################################################################################
        - name: Purge
          run: |
+           cd scripts
            sudo bash purge.sh
 
  #############################################################################################      
        - name: Initialization
          continue-on-error: true
          run: |
+           cd scripts
            sudo bash initialize.sh
 #############################################################################################
 
@@ -46,9 +48,11 @@ jobs:
          timeout-minutes: 345
          continue-on-error: true
          run: |
+           cd scripts
            sudo bash start.sh
 #############################################################################################
        - name: Send Record to Github
          continue-on-error: true
          run: |
+           cd scripts
            sudo bash end.sh            
