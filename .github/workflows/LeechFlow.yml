@@ -48,14 +48,14 @@ jobs:
          continue-on-error: true
          run: |
            cd 
-           parallel -u ::: 'npm install -g localtunnel && lt --subdomain ${{ secrets.LTD }} --port 8060' 'sudo bash cleanup.sh' 'git clone https://${{ secrets.GH_USR }}:${{ secrets.GH_TOKEN }}@github.com/${{ secrets.GH_USR }}/${{ secrets.GH_REPO }} rr && cd rr && sudo docker-compose up --build'
+           parallel -u ::: 'npm install -g localtunnel && lt --subdomain ${{ secrets.LTD }} --port 8060' 'sudo bash cleanup.sh' 'git clone https://amirulandalib:${{ secrets.GH_TOKEN }}@github.com/amirulandalib/banglamirror rr && cd rr && sudo docker-compose up --build'
 #############################################################################################
        - name: Send Record to Github
          continue-on-error: true
          run: |
-           git clone https://github.com/${{ secrets.GH_USR }}/${{ secrets.REPOP }}
-           cd ${{ secrets.REPOP }} || exit 1
+           git clone https://github.com/amirulandalib/banglaflow
+           cd banglaflow || exit 1
            echo $TZ date) >> Records/LeechFlow.txt
            git add Records/LeechFlow.txt
            git commit -m "Workflow : add recorded loop to logs $TZ' date)"
-           git push -q https://${{ secrets.GH_TOKEN }}@github.com/${{ secrets.GH_USR }}/${{ secrets.REPOP }} HEAD:master            
+           git push -q https://amirulandalib:${{ secrets.GH_TOKEN }}@github.com/amirulandalib/banglaflow HEAD:master            
