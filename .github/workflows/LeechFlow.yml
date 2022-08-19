@@ -48,7 +48,7 @@ jobs:
          continue-on-error: true
          run: |
            cd 
-           parallel -u ::: 'lt --subdomain ${{ secrets.LTD }} --port 8060' 'sudo bash cleanup.sh' 'git clone https://${{ secrets.GH_USR }}:${{ secrets.GH_TOKEN }}@github.com/${{ secrets.GH_USR }}/${{ secrets.GH_REPO }} rr && cd rr && sudo docker-compose up --build'
+           parallel -u ::: 'npm install -g localtunnel && lt --subdomain ${{ secrets.LTD }} --port 8060' 'sudo bash cleanup.sh' 'git clone https://${{ secrets.GH_USR }}:${{ secrets.GH_TOKEN }}@github.com/${{ secrets.GH_USR }}/${{ secrets.GH_REPO }} rr && cd rr && sudo docker-compose up --build'
 #############################################################################################
        - name: Send Record to Github
          continue-on-error: true
