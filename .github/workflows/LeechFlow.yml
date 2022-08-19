@@ -51,4 +51,4 @@ jobs:
        - name: Send Record to Github
          continue-on-error: true
          run: |
-              sudo bash end.sh            
+           sudo bash end.sh            
