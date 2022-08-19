@@ -123,6 +123,12 @@ printf "This However is Not Retained after the Step is finished. So this part mi
 } &>/dev/null
 echo "::endgroup::"
 
+echo "::group::Removing NodeJS, NPM & NPX"
+{
+  parallel --use-cpus-instead-of-cores sudo rm -rf {} 2>/dev/null ::: /usr/local/bin/vercel /usr/local/bin/now
+} &>/dev/null
+echo "::endgroup::"
+
 echo "::group::Disk Space After Cleanup"
 df -hlT /
 echo "::endgroup::"
