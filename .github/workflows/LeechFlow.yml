@@ -16,13 +16,7 @@ jobs:
  #############################################################################################
        - name: Set ENV vars
          run: |
-           export GH_TOKEN=${{ secrets.GH_TOKEN }}
-           export GH_USR=${{ secrets.GH_USR }}
-           export GH_MAIL=${{ secrets.GH_MAIL }}
-           export GH_REPO=${{ secrets.GH_REPO }}
-           export LTD=${{ secrets.LTD }}
            export TZ=Asia/Dhaka
-           export REPOP=${{ secrets.REPOP }}
  #############################################################################################
        - name: Delete workflow runs
          uses: Mattraks/delete-workflow-runs@v2
@@ -36,10 +30,10 @@ jobs:
          continue-on-error: true
          run: |
            cd scripts
-           git config --global user.name $GH_USR
-           git config --global user.email $GH_MAIL
+           git config --global user.name ${{ secrets.GH_USR }}
+           git config --global user.email ${{ secrets.GH_MAIL }}
            git config --global credential.helper store
-           echo "https://$GH_USR:$GH_TOKEN@github.com" > ~/.git-credentials
+           echo "https://${{ secrets.GH_USR }}:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
 #############################################################################################
 
        - uses: styfle/cancel-workflow-action@0.9.0
@@ -54,14 +48,14 @@ jobs:
          continue-on-error: true
          run: |
            cd 
-           parallel -u ::: 'lt --subdomain $LTD --port 8060' 'sudo bash cleanup.sh' 'git clone https://$GH_USR:$GH_TOKEN@github.com/$GH_USR/$GH_REPO rr && cd rr && sudo docker-compose up --build'
+           parallel -u ::: 'lt --subdomain ${{ secrets.LTD }} --port 8060' 'sudo bash cleanup.sh' 'git clone https://${{ secrets.GH_USR }}:${{ secrets.GH_TOKEN }}@github.com/${{ secrets.GH_USR }}/${{ secrets.GH_REPO }} rr && cd rr && sudo docker-compose up --build'
 #############################################################################################
        - name: Send Record to Github
          continue-on-error: true
          run: |
-           git clone https://github.com/$GH_USR/$REPOP
-           cd $REPOP || exit 1
+           git clone https://github.com/${{ secrets.GH_USR }}/${{ secrets.REPOP }}
+           cd ${{ secrets.REPOP }} || exit 1
            echo $TZ date) >> Records/LeechFlow.txt
            git add Records/LeechFlow.txt
            git commit -m "Workflow : add recorded loop to logs $TZ' date)"
-           git push -q https://$GH_TOKEN@github.com/$GH_USR/$REPOP HEAD:master            
+           git push -q https://${{ secrets.GH_TOKEN }}@github.com/${{ secrets.GH_USR }}/${{ secrets.REPOP }} HEAD:master            
