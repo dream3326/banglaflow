@@ -126,6 +126,7 @@ echo "::endgroup::"
 echo "::group::Disk Space After Cleanup"
 df -hlT /
 echo "::endgroup::"
-echo "freed 53GB of disk space"
+
+printf "\nIf this action really helped you,\n Go to https://github.com/marketplace/actions/github-actions-cleaner\n And show your hate by giving a dick 🍌.\n\n"
 
 exit
