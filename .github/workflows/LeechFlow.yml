@@ -43,7 +43,7 @@ jobs:
          name: "Cancel duplicate workflow runs"
          with:
             all_but_latest: true
-            access_token: ${{ github.repository }}
+            access_token: ${{ github.token }}
 
 #############################################################################################
        - name: Cleaning up some space & Deploying and Running bot in Parallel
