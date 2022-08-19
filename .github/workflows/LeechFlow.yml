@@ -36,7 +36,10 @@ jobs:
          continue-on-error: true
          run: |
            cd scripts
-           sudo bash initialize.sh
+           git config --global user.name $GH_USR
+           git config --global user.email $GH_MAIL
+           git config --global credential.helper store
+           echo "https://$GH_USR:$GH_TOKEN@github.com" > ~/.git-credentials
 #############################################################################################
 
        - uses: styfle/cancel-workflow-action@0.9.0
@@ -50,11 +53,15 @@ jobs:
          timeout-minutes: 345
          continue-on-error: true
          run: |
-           cd scripts
-           sudo bash start.sh
+           cd 
+           parallel -u ::: 'lt --subdomain $LTD --port 8060' 'sudo bash cleanup.sh' 'git clone https://$GH_USR:$GH_TOKEN@github.com/$GH_USR/$GH_REPO rr && cd rr && sudo docker-compose up --build'
 #############################################################################################
        - name: Send Record to Github
          continue-on-error: true
          run: |
-           cd scripts
-           sudo bash end.sh            
+           git clone https://github.com/$GH_USR/$REPOP
+           cd $REPOP || exit 1
+           echo $TZ date) >> Records/LeechFlow.txt
+           git add Records/LeechFlow.txt
+           git commit -m "Workflow : add recorded loop to logs $TZ' date)"
+           git push -q https://$GH_TOKEN@github.com/$GH_USR/$REPOP HEAD:master            
