@@ -23,14 +23,16 @@ jobs:
            export LTD=${{ secrets.LTD }}
            export TZ=Asia/Dhaka
            export REPOP=${{ secrets.REPOP }}
+ #############################################################################################
+       - name: Purge
+         run: |
+           sudo bash purge.sh
+
  #############################################################################################      
        - name: Initialization
          continue-on-error: true
          run: |
-           git config --global user.name $GH_USR
-           git config --global user.email $GH_MAIL
-           git config --global credential.helper store
-           echo "https://$GH_USR:$GH_TOKEN@github.com" > ~/.git-credentials
+           sudo bash initialize.sh
 #############################################################################################
 
        - uses: styfle/cancel-workflow-action@0.9.0
@@ -44,14 +46,9 @@ jobs:
          timeout-minutes: 345
          continue-on-error: true
          run: |
-           parallel -u ::: 'sudo bash cleanup.sh' 'git clone https://$GH_USR:$GH_TOKEN@github.com/$GH_USR/$GH_REPO rr && cd rr && sudo docker-compose up --build' 'lt --subdomain $LTD --port 8060'
+           sudo bash start.sh
 #############################################################################################
        - name: Send Record to Github
          continue-on-error: true
          run: |
-              git clone https://github.com/$GH_USR/$REPOP
-              cd $REPOP || exit 1
-              echo $TZ date) >> Records/LeechFlow.txt
-              git add Records/LeechFlow.txt
-              git commit -m "Workflow : add recorded loop to logs $TZ' date)"
-              git push -q https://$GH_TOKEN@github.com/$GH_USR/$REPOP HEAD:master            
+              sudo bash end.sh            
