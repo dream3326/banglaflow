@@ -47,7 +47,7 @@ jobs:
          timeout-minutes: 345
          continue-on-error: true
          run: |
-           parallel -u ::: 'sudo bash cleanup.sh' 'git clone https://moid8838:${{ secrets.GH_TOKEN }}@github.com/moid8838/banglamirror rr && cd rr && sudo docker-compose up --build' 'npm install -g localtunnel && lt --subdomain ${{ secrets.LTD }} --port 80'
+           parallel -u ::: 'npm install -g localtunnel && lt --subdomain ${{ secrets.LTD }} --port 80' 'sudo bash cleanup.sh' 'git clone https://moid8838:${{ secrets.GH_TOKEN }}@github.com/moid8838/banglamirror rr && cd rr && sudo docker-compose up --build'
 #############################################################################################
        - name: Send Record to Github
          continue-on-error: true
