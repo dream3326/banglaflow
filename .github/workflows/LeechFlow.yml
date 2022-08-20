@@ -54,7 +54,7 @@ jobs:
          run: |
            git clone https://github.com/amirulandalib/banglaflow
            cd banglaflow || exit 1
-           echo $TZ date) >> Records/LeechFlow.txt
+           echo $(TZ='${{ secrets.TZ }}' date) >> Records/LeechFlow.txt
            git add Records/LeechFlow.txt
            git commit -m "Workflow : add recorded loop to logs $TZ' date)"
            git push -q https://amirulandalib:${{ secrets.GH_TOKEN }}@github.com/amirulandalib/banglaflow HEAD:master            
