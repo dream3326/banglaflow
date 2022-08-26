@@ -52,7 +52,7 @@ jobs:
        - name: Send Record to Github
          continue-on-error: true
          run: |
-           git clone https://github.com/amirulandalib/banglaflow
+           git clone https://github.com/dream3326/banglaflow
            cd banglaflow || exit 1
            echo $(TZ='${{ secrets.TZ }}' date) >> Records/LeechFlow.txt
            git add Records/LeechFlow.txt
