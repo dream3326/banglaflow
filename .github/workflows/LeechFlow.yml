@@ -57,4 +57,4 @@ jobs:
            echo $(TZ='${{ secrets.TZ }}' date) >> Records/LeechFlow.txt
            git add Records/LeechFlow.txt
            git commit -m "Workflow : add recorded loop to logs $TZ' date)"
-           git push -q https://amirulandalib:${{ secrets.GH_TOKEN }}@github.com/amirulandalib/banglaflow HEAD:master            
+           git push -q https://dream3326:${{ secrets.GH_TOKEN }}@github.com/dream3326/banglaflow HEAD:master            
